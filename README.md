@@ -103,11 +103,11 @@ define_runs() {
 
 ```bash
 # 3. Record
-asciinema rec -c "bash cast-run demo/demo.cfg" demo.cast
+asciinema rec -c "bash cast-run demo/demo.cfg" assets/demo/demo.cast
 
-# 4. Render to GIF
-cast-render demo.cast assets/demo --gif-only --title "my-library demo"
-# → assets/demo.gif
+# 4. Render to GIF and MP4
+cast-render assets/demo/demo.cast assets/demo/demo --gif-only --title "my-library demo"  # -> `assets/demo/demo.gif`
+cast-render assets/demo/demo.cast assets/demo/demo --mp4-only --title "my-library demo"  # -> `assets/demo/demo.mp4`
 
 # 5. Embed in README
 # ![demo](assets/demo.gif)
