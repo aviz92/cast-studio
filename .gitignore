@@ -179,6 +179,6 @@ results_output/
 migrations/
 #.cursor
 #.vscode
-assets/
+#assets/
 demo/
 demo.cast

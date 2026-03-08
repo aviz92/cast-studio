@@ -117,8 +117,7 @@ cast-render assets/demo/demo.cast assets/demo/demo --mp4-only --title "my-librar
 
 ## 🎥 Demo
 
-[//]: # ([![Watch demo]&#40;assets/demo/demo.gif&#41;]&#40;https://your-video-url.mp4&#41;)
-![Watch demo](assets/demo/demo.gif)
+[![Watch demo](assets/demo/demo.gif)](https://your-video-url.mp4)
 
 ---
 
@@ -138,13 +137,6 @@ cast-render assets/demo/demo.cast assets/demo/demo --mp4-only --title "my-librar
 | `--mp4-fps` | `30` | MP4 output FPS |
 | `--hold` | `3.0` | Seconds to hold last frame |
 | `--keep-frames` | — | Keep temporary PNG frames |
-
-### `cast-init`
-
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--dest` | `scripts/record_demo` | Directory to scaffold into |
-| `--force` | — | Overwrite existing files |
 
 ---
 
