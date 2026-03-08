@@ -1,0 +1,70 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# demo.cfg  —  pytest-plugins demo configuration
+#
+# Used by: bash scripts/run_demo.sh scripts/demo.cfg
+#
+# usage example: asciinema rec -c "bash scripts/record_demo/run_demo.sh scripts/record_demo/demo.cfg" video/demo.cast
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── project metadata ──────────────────────────────────────────────────────────
+PROJECT="pytest-plugins"
+SUBTITLE="Enhanced reporting & smart CI utilities"
+INSTALL_CMD="pip install pytest-plugins"
+REPO_URL="github.com/aviz92/pytest-plugins"
+PYPI_URL="pypi.org/project/pytest-plugins"
+
+# ── timing (seconds) ─────────────────────────────────────────────────────────
+PAUSE_INTRO=2
+PAUSE_BETWEEN=2
+PAUSE_OUTRO=3
+
+# ── pytest settings ───────────────────────────────────────────────────────────
+# Uses pytest.ini — no need to override addopts or log_cli here.
+PYTEST=".venv/bin/pytest"
+TESTS="tests/test_demo.py"
+
+# ── runs ──────────────────────────────────────────────────────────────────────
+# add_run "Title" "Desc line 1|Desc line 2" "command"
+define_runs() {
+
+  # pytest
+  add_run \
+    "RUN 1 — --better-report  │  per-test results + CI reports" \
+    "Generates execution_results.json, test_results.json, and a Markdown report.|Ready to post as a PR comment." \
+    "$PYTEST $TESTS --better-report --result-each-test --md-report --pr-number 42 --commit abc1234"
+
+  add_run \
+    "RUN 2 — --fail2skip  │  known-broken tests won't fail your CI" \
+    "Tests marked @pytest.mark.fail2skip are converted from FAILED to SKIPPED.|Your pipeline stays green while the bug is being tracked." \
+    "$PYTEST $TESTS --better-report --fail2skip"
+
+  add_run \
+    "RUN 3 — --maxfail-streak 2  │  stop after N consecutive failures" \
+    "--maxfail-streak stops the suite after 2 consecutive failures.|--verbose-param-ids makes parametrized test IDs human-readable." \
+    "$PYTEST $TESTS --better-report --maxfail-streak 2 --verbose-param-ids"
+
+  # Regular bash script execution
+  add_run \
+    "SETUP — initialize the database" \
+    "Creates tables and seeds demo data." \
+    "bash scripts/setup_db.sh"
+
+  # Regular python script execution
+  add_run \
+    "GENERATE — create test fixtures" \
+    "Generates 100 fake user records into fixtures/users.json." \
+    "python scripts/generate_fixtures.py --count 100"
+
+  # Regular pytest script execution
+  add_run \
+    "RUN 1 — smoke tests" \
+    "Quick sanity check before the full suite." \
+    "$PYTEST tests/smoke/ --better-report"
+
+  # Combined commands
+  add_run \
+    "RUN 2 — build + test" \
+    "Build the package, then run the full suite." \
+    "python -m build && $PYTEST tests/ --better-report"
+
+}

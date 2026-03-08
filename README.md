@@ -1,148 +1,205 @@
-![PyPI version](https://img.shields.io/pypi/v/<project-name>)
-![Python](https://img.shields.io/badge/python->=3.12-blue)
-![Development Status](https://img.shields.io/badge/status-stable-green)
+![PyPI version](https://img.shields.io/pypi/v/cast-studio)
+![Python](https://img.shields.io/badge/python->=3.9-blue)
+![Development Status](https://img.shields.io/badge/status-alpha-orange)
 ![Maintenance](https://img.shields.io/maintenance/yes/2026)
-![PyPI](https://img.shields.io/pypi/dm/<project-name>)
-![License](https://img.shields.io/pypi/l/<project-name>)
+![PyPI](https://img.shields.io/pypi/dm/cast-studio)
+![License](https://img.shields.io/pypi/l/cast-studio)
 
 ---
 
-# 🧱 Dev Template Repository
-A comprehensive, production-ready template repository for initializing new development projects with consistent tooling, editor settings, GitHub workflows, and best practices. This template serves as a **baseline setup** for modern development workflows, reducing setup overhead and promoting standardization across all your codebases.
+# 🎬 cast-studio
 
-## 🎯 Overview
-This template provides a solid foundation for Python projects with:
-- **Pre-configured development environment** with VS Code settings and extensions
-- **Automated CI/CD pipelines** using GitHub Actions
-- **Code quality enforcement** with linting, formatting, and testing
-- **Professional project structure** with proper documentation and metadata
-- **Team collaboration tools** including PR templates and code ownership
+Convert [asciinema](https://asciinema.org/) `.cast` recordings into **GIF** and **MP4** — and scaffold a generic demo-recording engine for any Python project.
 
 ---
 
-## 📁 What's Included
+## 📦 Installation
 
-### 🔧 Development Environment (`.vscode/`)
-- **`settings.json`**: Editor defaults (format on save, lint integration, tab size, Python interpreter)
-- **`extensions.json`**: Recommended extensions for Python development and team consistency
-- **`keybindings.json`**: Custom keyboard shortcuts for improved productivity
-- **`launch.json`**: Debugging configurations for Python applications
+```bash
+uv add cast-studio
+```
 
-### ⚙️ GitHub Configuration (`.github/`)
-- **Workflows**: Automated CI/CD pipelines for testing, linting, and publishing
-  - `publish_to_pypi.yml`: Automated PyPI package publishing
-- **`CODEOWNERS`**: Define default code reviewers per folder/path
-- **Issue templates**: Standardized bug reports and feature requests
-- **Pull request template**: Enforce contribution guidelines and checklists
+> **System requirement:** `ffmpeg` must be installed.
+> ```bash
+> brew install ffmpeg        # macOS
+> apt-get install ffmpeg     # Ubuntu / Debian
+> ```
 
-### 🧹 Code Quality & Style
-- **Python-specific configurations**:
-  - `requirements.txt`: Core dependencies and development tools
-  - `MANIFEST.in`: Package distribution configuration
-  - `env.template`: Environment variables template
-- **`.gitignore`**: Preconfigured for Python, IDEs, and common tools
-- **`.cursor/`**: Cursor IDE specific configurations and instructions
+---
 
-### 📄 Project Metadata
-- **`README.md`**: Comprehensive project documentation
-- **`LICENSE`**: MIT license for open-source projects
-- **`CHANGELOG.md`**: Version tracking and release notes
+## 🚀 Features
+
+- ✅ **cast → GIF** — High-quality 256-colour GIF via ffmpeg palette pass
+- ✅ **cast → MP4** — H.264/x264 CRF-18 MP4 ready for GitHub Releases
+- ✅ **Catppuccin Mocha theme** — Beautiful dark terminal rendering with Pillow
+- ✅ **Generic demo engine** — `run_demo.sh` + `demo.cfg` for any project
+- ✅ **Any shell command** — Record pytest runs, scripts, CLIs — not just pytest
+- ✅ **Multi-line descriptions** — Pipe-separated description lines per run
+- ✅ **`cast-init` scaffolding** — One command sets up your project's demo config
+- ✅ **`python-base-command` CLI** — Structured, loggable CLI with `cast` / `cast-render` / `cast-init`
+
+---
+
+## ⚙️ Configuration
+
+No `.env` needed. All config lives in `demo.cfg`:
+
+```bash
+PROJECT="my-library"
+SUBTITLE="A short description"
+INSTALL_CMD="pip install my-library"
+REPO_URL="github.com/you/my-library"
+PYPI_URL="pypi.org/project/my-library"
+
+PYTEST=".venv/bin/pytest"
+TESTS="tests/"
+
+PAUSE_INTRO=2       # seconds after intro screen
+PAUSE_BETWEEN=2     # seconds between runs
+PAUSE_OUTRO=3       # seconds on outro screen
+
+define_runs() {
+  add_run "RUN 1 — feature A" "Short description." "$PYTEST $TESTS --flag"
+  add_run "RUN 2 — script"   "Another feature."    "python scripts/my_script.py"
+}
+```
+
+> `add_run "Title" "Line 1|Line 2" "any shell command"` — use `|` for multi-line descriptions.
+
+---
+
+## 🛠️ How to Use
+
+1. **Install** — `uv add cast-studio` (and `brew install ffmpeg asciinema`)
+2. **Scaffold** — `cast-init` creates `scripts/record_demo/run_demo.sh` + `demo.cfg`
+3. **Edit** — customise `demo.cfg` with your project's runs
+4. **Record** — `asciinema rec -c "bash cast_studio/templates/run_demo.sh demo/demo.cfg" demo.cast`
+5. **Render** — `cast-render demo.cast assets/demo --gif-only --title "my demo"` → `assets/demo.gif`
+6. **Embed** — add `![demo](assets/demo.gif)` to your README
 
 ---
 
 ## 🚀 Quick Start
 
-### 1. Create New Repository
-Click **"Use this template"** on GitHub to create a new repository based on this template.
-
-### 2. Clone and Setup
 ```bash
-# Clone your new repository
-git clone https://github.com/your-username/your-new-repo.git
-cd your-new-repo
+# 1. Install
+uv add cast-studio
+brew install ffmpeg asciinema   # macOS
 
-# Create virtual environment
-uv venv
-source .venv/bin/activate   # On Windows: .venv\Scripts\activate
+# 2. Scaffold demo config
+cast-init --dest demo
 
-# Install dependencies
-uv sync # or uv pip install -r requirements.txt
-
-# Copy environment template
-cp env.template .env
-# Edit .env with your specific configuration
+# 3. Edit demo/demo.cfg — set PROJECT, SUBTITLE, INSTALL_CMD, define_runs()
 ```
 
-### 3. Customize for Your Project
-1. **Update project metadata**:
-   - Edit `README.md` with your project details
-   - Update `requirements.txt` with your specific dependencies
-   - Modify `MANIFEST.in` for package distribution
-
-2. **Configure environment**:
-   - Edit `.env` file with your environment variables
-   - Update VS Code settings in `.vscode/settings.json` if needed
-
-### 4. Setup Pre-commit Hooks
+`demo/demo.cfg` structure:
 ```bash
-# Install pre-commit hooks
-pre-commit install
+PROJECT="my-library"
+SUBTITLE="A short description"
+INSTALL_CMD="uv add my-library"
+REPO_URL="github.com/you/my-library"
+PYPI_URL="pypi.org/project/my-library"
+
+define_runs() {
+  add_run "RUN 1 — feature A" "Short description." "pytest tests/ --flag"
+  add_run "RUN 2 — script"   "Another feature."    "python scripts/my_script.py"
+}
 ```
 
 ```bash
-# Run on all files (optional, for existing codebase)
-pre-commit run --all-files
+# 4. Record
+asciinema rec -c "bash cast_studio/templates/run_demo.sh demo/demo.cfg" demo.cast
+
+# 5. Render to GIF
+cast-render demo.cast assets/demo --gif-only --title "my-library demo"
+# → assets/demo.gif
+
+# 6. Embed in README
+# ![demo](assets/demo.gif)
 ```
+
+---
+
+## ▶️ Usage Examples
+
+### Example 1: Render a cast file to GIF only
 
 ```bash
-# Run on all files excluding specific files (example: main.py) (optional, for existing codebase)
-pre-commit run --files $(git ls-files | grep -v "main.py")
+cast-render demo.cast assets/demo --gif-only --gif-fps 12 --title "pytest-plugins demo"
 ```
 
-**Automatic Usage:**
-Once installed, pre-commit will automatically run on every `git commit`. If any hook fails:
-- **Fix the issues** and commit again
-- **Skip hooks** (not recommended): `git commit --no-verify`
-
-### 5. Go-Task
-This template uses **Go-Task** to provide a consistent interface for common development commands.
+### Example 2: Render to MP4 only with a hold on the last frame
 
 ```bash
-# List available tasks
-task --list
+cast-render demo.cast assets/demo --mp4-only --hold 5.0
 ```
 
-Use `task <task-name>` to run predefined workflows such as linting, formatting, testing, or other project utilities.
+### Example 3: Use the unified `cast` runner
 
-All tasks are defined in `Taskfile.yml` at the repository root and are intended to standardize local development and CI usage.
+```bash
+cast render demo.cast assets/demo --gif-fps 10
+cast init --dest scripts/demo --force
+cast --help
+```
+
+### Example 4: `demo.cfg` with mixed pytest + script runs
+
+```bash
+define_runs() {
+  add_run "RUN 1 — tests"  "Run the full test suite." \
+    "$PYTEST $TESTS --better-report"
+
+  add_run "RUN 2 — script" "Generate a coverage badge." \
+    "python scripts/generate_badge.py"
+}
+```
+
+---
+
+## CLI Reference
+
+### `cast-render`
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `cast_file` | — | Path to `.cast` file |
+| `output_base` | — | Output path without extension |
+| `--title` | `""` | Title bar text |
+| `--gif-only` | — | Produce GIF only |
+| `--mp4-only` | — | Produce MP4 only |
+| `--render-fps` | `30` | Internal PNG frame rate |
+| `--gif-fps` | `10` | GIF output FPS |
+| `--mp4-fps` | `30` | MP4 output FPS |
+| `--hold` | `3.0` | Seconds to hold last frame |
+| `--keep-frames` | — | Keep temporary PNG frames |
+
+### `cast-init`
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--dest` | `scripts/record_demo` | Directory to scaffold into |
+| `--force` | — | Overwrite existing files |
 
 ---
 
 ## 🤝 Contributing
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/my-addition`
-3. Make your changes
-4. Commit your changes: `git commit -m 'Add my addition'`
-5. Push to the branch: `git push origin feature/my-addition`
-6. Open a Pull Request
 
-Additions that promote clean, productive, and maintainable development are always welcome.
+If you have a helpful pattern or improvement to suggest:
+Fork the repo
+Create a new branch
+Submit a pull request
+I welcome additions that promote clean, productive, and maintainable development.
 
 ---
 
-## 📋 Development Checklist
-When using this template for a new project:
+## 📄 License
 
-- [ ] Update README.md with project-specific information
-- [ ] Configure environment variables in .env
-- [ ] Update requirements.txt with project dependencies
-- [ ] Set up GitHub repository secrets for CI/CD
-- [ ] Configure package metadata in setup.py or pyproject.toml
-- [ ] Add project-specific tests
+MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
 ## 🙏 Thanks
+
 Thanks for exploring this repository! <br>
 Happy coding!
 
