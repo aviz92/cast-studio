@@ -58,3 +58,4 @@ cast_studio = ["templates/**/*"]
 cast        = "cast_studio.cli:main"
 cast-render = "cast_studio.cli_render:main"
 cast-init   = "cast_studio.cli_init:main"
+cast-run    = "cast_studio.cli_run:main"
