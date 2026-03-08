@@ -89,15 +89,44 @@ brew install ffmpeg asciinema   # macOS
 
 `demo/demo.cfg` structure:
 ```bash
-PROJECT="my-library"
-SUBTITLE="A short description"
-INSTALL_CMD="uv add my-library"
-REPO_URL="github.com/you/my-library"
-PYPI_URL="pypi.org/project/my-library"
+# ── project metadata ──────────────────────────────────────────────────────────
+PROJECT="cast-studio"
+SUBTITLE="Convert asciinema .cast files to GIF and MP4"
+INSTALL_CMD="uv add cast-studio"
+REPO_URL="github.com/aviz92/cast-studio"
+PYPI_URL="pypi.org/project/cast-studio"
 
+# ── timing (seconds) ─────────────────────────────────────────────────────────
+PAUSE_INTRO=2
+PAUSE_BETWEEN=2
+PAUSE_OUTRO=3
+
+# ── runs ──────────────────────────────────────────────────────────────────────
 define_runs() {
-  add_run "RUN 1 — feature A" "Short description." "pytest tests/ --flag"
-  add_run "RUN 2 — script"   "Another feature."    "python scripts/my_script.py"
+  add_run \
+    "STEP 1 — cast-init  │  scaffold demo scripts into your project" \
+    "Creates run_demo.sh (the engine) and demo.cfg (your project config).|One command sets up the full demo recording workflow." \
+    "cast-init --dest /tmp/cast-studio-demo --force"
+
+  add_run \
+    "STEP 2 — demo.cfg  │  inspect the generated config" \
+    "Edit PROJECT, SUBTITLE, INSTALL_CMD, and define_runs().|Add any shell command — pytest, scripts, CLIs — using add_run." \
+    "cat /tmp/cast-studio-demo/demo.cfg"
+
+  add_run \
+    "STEP 3 — cast-render  │  render a .cast file to GIF" \
+    "Renders each frame as a PNG using Pillow (Catppuccin Mocha theme).|Then encodes a high-quality 256-colour GIF via ffmpeg palette pass." \
+    "cast-render demo.cast assets/demo --gif-only --title \"cast-studio demo\""
+
+  add_run \
+    "STEP 4 — cast-render  │  render to MP4" \
+    "H.264/x264 CRF-18 encode — ready for GitHub Releases or Twitter.|Use --hold to extend the last frame so viewers can read the outro." \
+    "cast-render demo.cast assets/demo --mp4-only --hold 5.0 --title \"cast-studio demo\""
+
+  add_run \
+    "STEP 5 — cast  │  unified runner" \
+    "The cast command auto-discovers all sub-commands.|cast render / cast init / cast --help — one entry point for everything." \
+    "cast --help"
 }
 ```
 
