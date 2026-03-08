@@ -52,7 +52,7 @@ include = ["cast_studio*"]
 namespaces = false
 
 [tool.setuptools.package-data]
-python_base_toolkit = ["templates/**/*"]
+cast_studio = ["templates/**/*"]
 
 [project.scripts]
 cast        = "cast_studio.cli:main"
