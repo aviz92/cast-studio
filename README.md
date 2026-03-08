@@ -117,7 +117,7 @@ cast-render assets/demo/demo.cast assets/demo/demo --mp4-only --title "my-librar
 
 ## 🎥 Demo
 
-[![Watch demo](assets/demo/demo.gif)](https://your-video-url.mp4)
+[![Watch demo](assets/demo/demo.gif)](https://github.com/aviz92/cast-studio/blob/main/assets/demo/demo.mp4)
 
 ---
 
