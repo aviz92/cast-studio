@@ -32,10 +32,9 @@ uv add cast-studio
 - ✅ **cast → GIF** — High-quality 256-colour GIF via ffmpeg palette pass
 - ✅ **cast → MP4** — H.264/x264 CRF-18 MP4 ready for GitHub Releases
 - ✅ **Catppuccin Mocha theme** — Beautiful dark terminal rendering with Pillow
-- ✅ **Generic demo engine** — `run_demo.sh` + `demo.cfg` for any project
+- ✅ **Generic demo engine** — `cast-run` + `demo.cfg` for any project
 - ✅ **Any shell command** — Record pytest runs, scripts, CLIs — not just pytest
 - ✅ **Multi-line descriptions** — Pipe-separated description lines per run
-- ✅ **`cast-init` scaffolding** — One command sets up your project's demo config
 - ✅ **`python-base-command` CLI** — Structured, loggable CLI with `cast` / `cast-render` / `cast-init`
 
 ---
@@ -71,9 +70,8 @@ define_runs() {
 ## 🛠️ How to Use
 
 1. **Install** — `uv add cast-studio` (and `brew install ffmpeg asciinema`)
-2. **Scaffold** — `cast-init` creates `scripts/record_demo/run_demo.sh` + `demo.cfg`
-3. **Edit** — customise `demo.cfg` with your project's runs
-4. **Record** — `asciinema rec -c "bash cast_studio/templates/run_demo.sh demo/demo.cfg" demo.cast`
+3. **Create .cfg** — customise `demo.cfg` with your project's runs
+4. **Record** — `asciinema rec -c "cast-run demo/demo.cfg" demo.cast`
 5. **Render** — `cast-render demo.cast assets/demo --gif-only --title "my demo"` → `assets/demo.gif`
 6. **Embed** — add `![demo](assets/demo.gif)` to your README
 
@@ -86,10 +84,7 @@ define_runs() {
 uv add cast-studio
 brew install ffmpeg asciinema   # macOS
 
-# 2. Scaffold demo config
-cast-init --dest demo
-
-# 3. Edit demo/demo.cfg — set PROJECT, SUBTITLE, INSTALL_CMD, define_runs()
+# 2. Create demo/demo.cfg — set PROJECT, SUBTITLE, INSTALL_CMD, define_runs()
 ```
 
 `demo/demo.cfg` structure:
@@ -107,51 +102,15 @@ define_runs() {
 ```
 
 ```bash
-# 4. Record
-asciinema rec -c "bash cast_studio/templates/run_demo.sh demo/demo.cfg" demo.cast
+# 3. Record
+asciinema rec -c "bash cast-run demo/demo.cfg" demo.cast
 
-# 5. Render to GIF
+# 4. Render to GIF
 cast-render demo.cast assets/demo --gif-only --title "my-library demo"
 # → assets/demo.gif
 
-# 6. Embed in README
+# 5. Embed in README
 # ![demo](assets/demo.gif)
-```
-
----
-
-## ▶️ Usage Examples
-
-### Example 1: Render a cast file to GIF only
-
-```bash
-cast-render demo.cast assets/demo --gif-only --gif-fps 12 --title "pytest-plugins demo"
-```
-
-### Example 2: Render to MP4 only with a hold on the last frame
-
-```bash
-cast-render demo.cast assets/demo --mp4-only --hold 5.0
-```
-
-### Example 3: Use the unified `cast` runner
-
-```bash
-cast render demo.cast assets/demo --gif-fps 10
-cast init --dest scripts/demo --force
-cast --help
-```
-
-### Example 4: `demo.cfg` with mixed pytest + script runs
-
-```bash
-define_runs() {
-  add_run "RUN 1 — tests"  "Run the full test suite." \
-    "$PYTEST $TESTS --better-report"
-
-  add_run "RUN 2 — script" "Generate a coverage badge." \
-    "python scripts/generate_badge.py"
-}
 ```
 
 ---
