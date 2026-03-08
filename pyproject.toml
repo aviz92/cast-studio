@@ -51,6 +51,9 @@ where = ["."]
 include = ["cast_studio*"]
 namespaces = false
 
+[tool.setuptools.package-data]
+python_base_toolkit = ["templates/**/*"]
+
 [project.scripts]
 cast        = "cast_studio.cli:main"
 cast-render = "cast_studio.cli_render:main"
