@@ -180,5 +180,3 @@ migrations/
 #.cursor
 #.vscode
 #assets/
-demo/
-demo.cast
