@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cast-studio"
-version = "0.1.2"
+version = "0.1.3"
 description = "Convert asciinema .cast files to GIF and MP4, with a generic demo-recording engine"
 readme = "README.md"
 requires-python = ">=3.12"
