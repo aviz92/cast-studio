@@ -115,6 +115,13 @@ cast-render assets/demo/demo.cast assets/demo/demo --mp4-only --title "my-librar
 
 ---
 
+## 🎥 Demo
+
+[//]: # ([![Watch demo]&#40;assets/demo/demo.gif&#41;]&#40;https://your-video-url.mp4&#41;)
+![Watch demo](assets/demo/demo.gif)
+
+---
+
 ## CLI Reference
 
 ### `cast-render`
